@@ -1,0 +1,7 @@
+const LOGIN = {
+    REQUEST: 'LOGIN_REQUEST',
+    SUCCESS: 'LOGIN_SUCCESS',
+    LOGOUT: 'LOGIN_LOGOUT'
+}
+
+export default LOGIN

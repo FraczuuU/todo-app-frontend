@@ -1,0 +1,22 @@
+.LoginPage {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.LoginPage-Section {
+  width: 100vw;
+  height: 40vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.LoginPage-Title {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  padding: 0;
+}

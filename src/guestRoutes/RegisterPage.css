@@ -1,0 +1,21 @@
+.RegisterPage {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.RegisterPage-Section {
+  width: 100vw;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  flex-direction: column;
+}
+
+.RegisterPage-Title {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  padding: 0;
+}
