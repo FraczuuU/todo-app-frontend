@@ -12,6 +12,10 @@ const loginReducer = (state = {}, action) => {
         return { ...state, loggedOut: true }
     }
 
+    if(action.type === LOGIN.RESET) {
+        return { ...state, loggedOut: false }
+    }
+
     return state
 }
 

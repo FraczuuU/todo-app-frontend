@@ -29,7 +29,7 @@ export class GuestRoute extends React.Component  {
         render={props => {
           return !this.state.auth 
           ? ( <Component {...props} /> ) 
-          : ( <Redirect to='/user' /> )
+          : ( <Redirect to='/dashboard' /> )
         }}
       />
     )

@@ -1,0 +1,41 @@
+.TodoList {
+    margin-top: 50px;
+    padding: 24px;
+    background-color: #ffffff;
+    min-height: 360px;
+}
+
+.checkTodo {
+    font-size: 1.2rem;
+    margin-right: 10px;
+    padding-left: 5px;
+}
+
+.checkTodo:hover {
+    cursor: pointer;
+    color: #999999;
+}
+
+.checked {
+    color: green;
+}
+
+.editTodo {
+    font-size: 1.2rem;
+    margin-right: 10px;
+}
+
+.editTodo:hover {
+    cursor: pointer;
+    color: #999999;
+}
+
+.deleteTodo {
+    font-size: 1.2rem;
+    color: darkred;
+}
+
+.deleteTodo:hover {
+    cursor: pointer;
+    color: red;
+}

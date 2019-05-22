@@ -1,0 +1,15 @@
+.TodoPlanned {
+    margin-top: 50px;
+    padding: 24px;
+    background-color: #ffffff;
+    min-height: 360px;
+}
+
+.editTodo {
+    font-size: 1.2rem;
+}
+
+.editTodo:hover {
+    cursor: pointer;
+    color: #999999;
+}

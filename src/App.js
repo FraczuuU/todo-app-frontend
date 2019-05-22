@@ -11,7 +11,7 @@ import LoggedRoute from './components/routes/LoggedRoute'
 
 import LoginPage from './guestRoutes/LoginPage'
 import RegisterPage from './guestRoutes/RegisterPage'
-import Dashboard from './loggedRoutes/Dashboard'
+import DashboardPage from './loggedRoutes/DashboardPage'
 
 class App extends React.Component {
   render() {
@@ -22,7 +22,7 @@ class App extends React.Component {
             <Switch>
               <GuestRoute path="/" exact component={ LoginPage } />
               <GuestRoute path="/register"  component={ RegisterPage } />
-              <LoggedRoute path="/user" exact component={ Dashboard } />
+              <LoggedRoute path="/dashboard" exact component={ DashboardPage } />
             </Switch>
         </div>
         </Router>

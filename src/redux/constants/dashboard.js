@@ -1,0 +1,5 @@
+const DASHBOARD = {
+    REDIRECT: 'DASHBOARD_REDIRECT'
+}
+
+export default DASHBOARD

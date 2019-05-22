@@ -14,8 +14,7 @@ class LoginPage extends React.Component {
 
     componentDidUpdate() {
         if(this.props.logged) {
-            this.props.history.push('/user')
-            toaster.notify('Logged in!', { duration: 1000 })
+            this.props.history.push('/dashboard')
         }
             
         if(this.props.message) {

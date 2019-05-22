@@ -1,7 +1,8 @@
 const LOGIN = {
     REQUEST: 'LOGIN_REQUEST',
     SUCCESS: 'LOGIN_SUCCESS',
-    LOGOUT: 'LOGIN_LOGOUT'
+    LOGOUT: 'LOGIN_LOGOUT',
+    RESET: 'LOGIN_RESET'
 }
 
 export default LOGIN

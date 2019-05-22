@@ -1,0 +1,24 @@
+.NewTodo {
+    margin-top: 50px;
+    padding: 24px;
+    background-color: #ffffff;
+    min-height: 360px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.wrapper {
+    width: 30vw;
+}
+
+.NewTodo-Header {
+    font-size: 2rem;
+    margin-bottom: 20px;
+}
+
+.NewTodo-Button {
+    width: 100%;
+    margin-top: 40px;
+}

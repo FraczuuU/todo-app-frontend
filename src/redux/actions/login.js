@@ -16,3 +16,7 @@ export const loginSuccess = () => ({
 export const logout = () => ({
     type: LOGIN.LOGOUT
 })
+
+export const resetLogged = () => ({
+    type: LOGIN.RESET
+})
