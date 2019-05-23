@@ -4,19 +4,19 @@ import { Input, Button } from 'antd'
 import toaster from 'toasted-notes'
 import 'toasted-notes/src/styles.css'
 
-import { addTodo, getTodos } from '../../redux/actions/todo'
+import { editTodo } from '../../redux/actions/todo'
 import { changeContent } from '../../redux/actions/dashboard'
 import { connect } from 'react-redux'
 
-import './NewTodo.css'
+import './EditTodo.css'
 
-class NewTodo extends React.Component {
+class EditTodo extends React.Component {
     constructor(props) {
         super(props)
 
         this.state = {
-            title: '',
-            description: ''
+            title: this.props.todoTitle,
+            description: this.props.todoDescription
         }
 
     }
@@ -32,31 +32,31 @@ class NewTodo extends React.Component {
     }
 
     handeButton() {
-            this.props.addTodo(this.state.title, this.state.description)
-            this.props.getTodos()
-            toaster.notify('Successfully added new todo', { duration: 1000 })
-            this.props.changeContent('todos')
+            this.props.editTodo(this.props.todoID, this.state.title, this.state.description)
+            toaster.notify('Successfully edited todo', { duration: 1000 })
+            this.props.changeContent(this.props.previous)
     }
 
     render() {
         const { TextArea } = Input
         return (
-            <div className="NewTodo">
-                <header className="NewTodo-Header">New Todo</header>
+            <div className="EditTodo">
+                <header className="EditTodo-Header">Edit Todo</header>
                 <div className="wrapper">
                     <div className="container">
-                    <TextArea onChange={ (e) => this.handleTitle(e) } placeholder="Title" autosize />
+                    <TextArea onChange={ (e) => this.handleTitle(e) } placeholder={ this.props.todoTitle } autosize />
                         <div style={{ margin: '24px 0' }} />
                     <TextArea
                         onChange={ (e) => this.handleDescription(e) }
-                        placeholder="Description"
+                        placeholder={ this.props.todoDescription }
                         autosize={{ minRows: 4}}
                     />
+
                     <Button 
                         type="primary" 
-                        className="NewTodo-Button" 
+                        className="EditTodo-Button" 
                         onClick={ () => this.handeButton() }>
-                        Add Todo
+                        Edit Todo
                     </Button>
                     </div>
                 </div>
@@ -66,15 +66,19 @@ class NewTodo extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-    return({})
+    return({
+        todoID: state.todoReducer.todoID,
+        todoTitle: state.todoReducer.todoTitle,
+        todoDescription: state.todoReducer.todoDescription,
+        previous: state.dashboardReducer.previous
+    })
 }
 
 const mapDispatchToProps = (dispatch) => {
     return({
-        addTodo: (title, description) => dispatch(addTodo({ title: title, description: description })),
-        getTodos: () => dispatch(getTodos()),
-        changeContent: (content) => dispatch(changeContent(content))
+        changeContent: (content) => dispatch(changeContent(content)),
+        editTodo: (id, title, description) => dispatch(editTodo(id, title, description))
     })
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(NewTodo)
+export default connect(mapStateToProps, mapDispatchToProps)(EditTodo)

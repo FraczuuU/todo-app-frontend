@@ -4,3 +4,26 @@
     background-color: #ffffff;
     min-height: 360px;
 }
+
+.Settings-Header {
+    font-size: 2rem;
+    margin-bottom: 20px;
+}
+
+.Settings-Wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.Settings-Container {
+    width: 30vw;
+    min-width: 200px;
+}
+
+.Settings-Button {
+    width: 100%;
+    margin: 20px 0px;
+}

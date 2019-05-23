@@ -1,4 +1,4 @@
-.NewTodo {
+.EditTodo {
     margin-top: 50px;
     padding: 24px;
     background-color: #ffffff;
@@ -22,12 +22,12 @@
     flex-direction: column;
 }
 
-.NewTodo-Header {
+.EditTodo-Header {
     font-size: 2rem;
     margin-bottom: 20px;
 }
 
-.NewTodo-Button {
+.EditTodo-Button {
     width: 100%;
     margin-top: 40px;
 }

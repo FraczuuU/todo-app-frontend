@@ -1,7 +1,8 @@
 import React from 'react'
 import { List, Card, Icon } from 'antd'
 
-import { getTodos, checkTodo, editTodo, removeTodo } from '../../redux/actions/todo'
+import { getTodos, checkTodo, removeTodo, getOne } from '../../redux/actions/todo'
+import { changeContent, setPrevious } from '../../redux/actions/dashboard'
 import { connect } from 'react-redux'
 
 import './TodoList.css'
@@ -17,7 +18,9 @@ class TodoList extends React.Component {
     }
 
     editTodo(id) {
-        console.log('Edit:', id)
+        this.props.getOne(id)
+        this.props.setPrevious(this.props.content)
+        this.props.changeContent('edit')
     }
 
     removeTodo(id) {
@@ -28,6 +31,7 @@ class TodoList extends React.Component {
         const data = this.props.todos
         return (
             <div className="TodoList">
+                <header className="TodoList-Header">Todo List</header>                
                 <List
                     grid={{
                         gutter: 16,
@@ -42,7 +46,8 @@ class TodoList extends React.Component {
                     renderItem={ todo => (
                         <List.Item>
                             <Card title={ todo.title } 
-
+                                headStyle={(todo.done) ? {'backgroundColor': '#D3FFD7'} : {'': ''} }
+                                bodyStyle={(todo.done) ? {'backgroundColor': '#D3FFD7'} : {'': ''} }
                                 extra={ 
                                     <div>
                                         <Icon type="check" className={`checkTodo ${ (todo.done) ? 'checked' : '' }`} 
@@ -64,7 +69,8 @@ class TodoList extends React.Component {
 
 const mapStateToProps = (state) => {
     return({
-        todos: state.todoReducer.todos
+        todos: state.todoReducer.todos,
+        content: state.dashboardReducer.content
     })
 }
 
@@ -72,8 +78,10 @@ const mapDispatchToProps = (dispatch) => {
     return({
         getTodos: () => dispatch(getTodos()),
         checkTodo: (id) => dispatch(checkTodo(id)),
-        editTodo: (id) => dispatch(editTodo(id)),
-        removeTodo: (id) => dispatch(removeTodo(id))
+        removeTodo: (id) => dispatch(removeTodo(id)),
+        getOne: (id) => dispatch(getOne(id)),
+        changeContent: (content) => dispatch(changeContent(content)),
+        setPrevious: (previous) => dispatch(setPrevious(previous))
     })
 }
 

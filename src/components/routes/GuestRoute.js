@@ -3,6 +3,8 @@ import { Route, Redirect } from 'react-router-dom'
 
 import { loggedIn } from '../../services/auth'
 
+import Loading from './Loading'
+
 export class GuestRoute extends React.Component  {
   constructor(props) {
     super(props)
@@ -22,7 +24,7 @@ export class GuestRoute extends React.Component  {
 
   render() {
     const { component: Component, ...rest } = this.props
-    if (!this.state.loaded) return null
+    if (!this.state.loaded) return <Loading />
     return (
       <Route
         {...rest}

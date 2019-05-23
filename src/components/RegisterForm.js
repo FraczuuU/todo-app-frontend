@@ -3,6 +3,7 @@ import {
     Form,
     Input,
     Button,
+    Icon
 } from 'antd'
 
 import { registerRequest } from '../redux/actions/register'
@@ -33,7 +34,7 @@ import './RegisterForm.css'
     compareToFirstPassword = (rule, value, callback) => {
       const form = this.props.form;
       if (value && value !== form.getFieldValue('password')) {
-        callback('Two passwords that you enter is inconsistent!');
+        callback('Passwords don\t match!');
       } else {
         callback();
       }
@@ -49,14 +50,12 @@ import './RegisterForm.css'
   
     render() {
       const { getFieldDecorator } = this.props.form;
-
-  
       return (
         <Form onSubmit={this.handleSubmit} className="register-form" >
           <Form.Item>
             {getFieldDecorator('username', {
               rules: [{ required: true, message: 'Please input your username!', whitespace: true }],
-            })(<Input placeholder="Username" />)}
+            })(<Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="Username" />)}
           </Form.Item>
           <Form.Item hasFeedback>
             {getFieldDecorator('password', {
@@ -73,7 +72,7 @@ import './RegisterForm.css'
                   validator: this.validateToNextPassword,
                 },
               ],
-            })(<Input.Password placeholder="Password" />)}
+            })(<Input.Password prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="Password" />)}
           </Form.Item>
           <Form.Item hasFeedback>
             {getFieldDecorator('confirm', {
@@ -86,7 +85,7 @@ import './RegisterForm.css'
                   validator: this.compareToFirstPassword,
                 },
               ],
-            })(<Input.Password placeholder="Confirm Password" onBlur={this.handleConfirmBlur} />)}
+            })(<Input.Password  prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="Confirm Password" onBlur={this.handleConfirmBlur} />)}
           </Form.Item>
           <Form.Item>
             {getFieldDecorator('email', {
@@ -100,7 +99,7 @@ import './RegisterForm.css'
                   message: 'Please input your E-mail!',
                 },
               ],
-            })(<Input placeholder="E-mail" />)}
+            })(<Input prefix={<Icon type="mail" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="E-mail" />)}
           </Form.Item>
           <Form.Item >
             <Button className="register-form-button" type="primary" htmlType="submit">

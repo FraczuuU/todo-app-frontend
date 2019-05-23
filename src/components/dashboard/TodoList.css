@@ -5,6 +5,11 @@
     min-height: 360px;
 }
 
+.TodoList-Header {
+    font-size: 2rem;
+    margin-bottom: 20px;
+}
+
 .checkTodo {
     font-size: 1.2rem;
     margin-right: 10px;
@@ -38,4 +43,8 @@
 .deleteTodo:hover {
     cursor: pointer;
     color: red;
+}
+
+.checked-background {
+    color: lightgreen;
 }

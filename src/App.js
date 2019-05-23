@@ -11,6 +11,8 @@ import LoggedRoute from './components/routes/LoggedRoute'
 
 import LoginPage from './guestRoutes/LoginPage'
 import RegisterPage from './guestRoutes/RegisterPage'
+import ForgotPasswordPage from './guestRoutes/ForgotPasswordPage'
+import ResetPasswordPage from './guestRoutes/ResetPasswordPage'
 import DashboardPage from './loggedRoutes/DashboardPage'
 
 class App extends React.Component {
@@ -22,6 +24,8 @@ class App extends React.Component {
             <Switch>
               <GuestRoute path="/" exact component={ LoginPage } />
               <GuestRoute path="/register"  component={ RegisterPage } />
+              <GuestRoute path="/forgot-password"  component={ ForgotPasswordPage } />
+              <GuestRoute path="/reset-password/:token" component={ ResetPasswordPage } />
               <LoggedRoute path="/dashboard" exact component={ DashboardPage } />
             </Switch>
         </div>

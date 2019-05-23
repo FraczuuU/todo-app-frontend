@@ -19,13 +19,23 @@ export const checkTodo = (id) => ({
     payload: { id: id }
 })
 
-export const editTodo = (id) => ({
+export const editTodo = (id, title, description) => ({
     type: TODO.EDIT,
-    payload: { id: id }
+    payload: { id: id, title: title, description: description }
+})
+
+export const goToEdit = (id, title, description) => ({
+    type: TODO.GO_TO_EDIT,
+    payload: { id: id, title: title, description: description }
 })
 
 export const removeTodo = (id) => ({
     type: TODO.REMOVE,
+    payload: { id: id }
+})
+
+export const getOne = (id) => ({
+    type: TODO.GET_ONE,
     payload: { id: id }
 })
 

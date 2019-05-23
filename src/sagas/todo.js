@@ -1,12 +1,12 @@
 import { call, put, takeLatest } from 'redux-saga/effects'
 import axios from 'axios'
 import { TODO } from '../redux/constants'
-import { showTodos, getTodos } from '../redux/actions/todo'
+import { showTodos, getTodos, goToEdit } from '../redux/actions/todo'
 import { showMessage } from '../redux/actions/messages'
 import { apiURL } from './index'
 import { getToken } from '../services/auth'
 
-function* getTodosSaga() {
+function* getAllTodosSaga() {
     try {
         const res = yield call(axios.get, apiURL + '/todo', { 
             'headers': {
@@ -20,7 +20,7 @@ function* getTodosSaga() {
             yield put(showMessage(res.data.error))
         
     } catch(err) {
-        console.log('Login Request Error:', err)
+        console.log('Error:', err)
         yield put(showMessage('An error occured, try again later!'))
     }
 }
@@ -34,12 +34,12 @@ function* addTodoSaga(action) {
         })
         
         if(res.data.todos[0]) {
-            return({})
+            yield put(showTodos())
         } else
             yield put(showMessage(res.data.error))
         
     } catch(err) {
-        console.log('Login Request Error:', err)
+        console.log('Error:', err)
         yield put(showMessage('An error occured, try again later!'))
     }
 }
@@ -57,26 +57,30 @@ function* checkTodoSaga(action) {
             yield put(showMessage(res.data.error))
         
     } catch(err) {
-        console.log('Login Request Error:', err)
+        console.log('Error:', err)
         yield put(showMessage('An error occured, try again later!'))
     }
 }
 
 function* editTodoSaga(action) {
     try {
-        const res = yield call(axios.patch, apiURL + '/todo', { id: action.payload.todo }, { 
+        const res = yield call(axios.patch, apiURL + '/todo', { 
+            id: action.payload.todo,
+            title: action.payload.title,
+            description: action.payload.description
+        }, { 
             'headers': {
                 'Authorization': 'Bearer ' + getToken()
             }
         })
         
-        if(res.data.todos[0]) {
+        if(res.data.message) {
             return({})
         } else
             yield put(showMessage(res.data.error))
         
     } catch(err) {
-        console.log('Login Request Error:', err)
+        console.log('Error:', err)
         yield put(showMessage('An error occured, try again later!'))
     }
 }
@@ -94,13 +98,32 @@ function* removeTodoSaga(action) {
             yield put(showMessage(res.data.error))
         
     } catch(err) {
-        console.log('Login Request Error:', err)
+        console.log('Error:', err)
         yield put(showMessage('An error occured, try again later!'))
     }
 }
 
-export function* getTodosSagaWatcher() {
-    yield takeLatest(TODO.GETALL, getTodosSaga)
+
+function* getOneTodoSaga(action) {
+    try {
+        const res = yield call(axios.get, apiURL + '/todo/one?id=' + action.payload.id, { 
+            'headers': {
+                'Authorization': 'Bearer ' + getToken()
+            }
+        })
+        if(res.data.todo) {
+            yield put(goToEdit(res.data.todo.id, res.data.todo.title, res.data.todo.description))
+        } else
+            yield put(showMessage(res.data.error))
+        
+    } catch(err) {
+        console.log('Error:', err)
+        yield put(showMessage('An error occured, try again later!'))
+    }
+}
+
+export function* getAllTodosSagaWatcher() {
+    yield takeLatest(TODO.GETALL, getAllTodosSaga)
 }
 
 export function* addTodoSagaWatcher() {
@@ -117,4 +140,8 @@ export function* editTodoSagaWatcher() {
 
 export function* removeTodoSagaWatcher() {
     yield takeLatest(TODO.REMOVE, removeTodoSaga)
+}
+
+export function* getOneTodoSagaWatcher() {
+    yield takeLatest(TODO.GET_ONE, getOneTodoSaga)
 }
