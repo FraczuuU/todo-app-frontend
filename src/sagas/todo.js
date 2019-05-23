@@ -65,7 +65,7 @@ function* checkTodoSaga(action) {
 function* editTodoSaga(action) {
     try {
         const res = yield call(axios.patch, apiURL + '/todo', { 
-            id: action.payload.todo,
+            id: action.payload.id,
             title: action.payload.title,
             description: action.payload.description
         }, { 
