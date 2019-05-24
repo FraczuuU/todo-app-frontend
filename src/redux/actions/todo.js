@@ -19,14 +19,14 @@ export const checkTodo = (id) => ({
     payload: { id: id }
 })
 
-export const editTodo = (id, title, description) => ({
+export const editTodo = (id, title, description, planDate) => ({
     type: TODO.EDIT,
-    payload: { id: id, title: title, description: description }
+    payload: { id: id, title: title, description: description, planDate: planDate }
 })
 
-export const goToEdit = (id, title, description) => ({
+export const goToEdit = (id, title, description, planDate) => ({
     type: TODO.GO_TO_EDIT,
-    payload: { id: id, title: title, description: description }
+    payload: { id: id, title: title, description: description, planDate: planDate }
 })
 
 export const removeTodo = (id) => ({
@@ -37,5 +37,13 @@ export const removeTodo = (id) => ({
 export const getOne = (id) => ({
     type: TODO.GET_ONE,
     payload: { id: id }
+})
+
+export const ready = () => ({
+    type: TODO.READY
+})
+
+export const readyReset = () => ({
+    type: TODO.READY_RESET
 })
 

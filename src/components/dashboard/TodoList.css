@@ -48,3 +48,17 @@
 .checked-background {
     color: lightgreen;
 }
+
+.todoPlanDate {
+    float: right;
+    margin-top: 20px;
+    color: #202020;
+}
+
+.closeToExpiring {
+    color: orange;
+}
+
+.expired {
+    color: red;
+}

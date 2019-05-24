@@ -1,10 +1,11 @@
 import React from 'react'
-import { Input, Button } from 'antd'
+import { Input, Button, DatePicker } from 'antd'
+import moment from 'moment'
 
 import toaster from 'toasted-notes'
 import 'toasted-notes/src/styles.css'
 
-import { editTodo } from '../../redux/actions/todo'
+import { editTodo, readyReset } from '../../redux/actions/todo'
 import { changeContent } from '../../redux/actions/dashboard'
 import { connect } from 'react-redux'
 
@@ -16,9 +17,14 @@ class EditTodo extends React.Component {
 
         this.state = {
             title: this.props.todoTitle,
-            description: this.props.todoDescription
+            description: this.props.todoDescription,
+            planDate: this.props.todoPlanDate
         }
 
+    }
+
+    componentDidMount() {
+        this.props.readyReset()
     }
 
     handleTitle(e) {
@@ -32,9 +38,19 @@ class EditTodo extends React.Component {
     }
 
     handeButton() {
-            this.props.editTodo(this.props.todoID, this.state.title, this.state.description)
+            this.props.editTodo(this.props.todoID, this.state.title, this.state.description, this.state.planDate)
             toaster.notify('Successfully edited todo', { duration: 1000 })
             this.props.changeContent(this.props.previous)
+    }
+
+    handleplanDate(value, planDate) {
+        this.setState({
+            planDate: planDate
+        })
+    }
+
+    goBack() {
+        this.props.changeContent(this.props.previous)
     }
 
     render() {
@@ -42,21 +58,31 @@ class EditTodo extends React.Component {
         return (
             <div className="EditTodo">
                 <header className="EditTodo-Header">Edit Todo</header>
-                <div className="wrapper">
-                    <div className="container">
-                    <TextArea onChange={ (e) => this.handleTitle(e) } placeholder={ this.props.todoTitle } autosize />
+                <div className="EditTodo-Wrapper">
+                    <div className="EditTodo-Container">
+                    <TextArea onChange={ (e) => this.handleTitle(e) } defaultValue={ this.props.todoTitle } autosize />
                         <div style={{ margin: '24px 0' }} />
                     <TextArea
                         onChange={ (e) => this.handleDescription(e) }
-                        placeholder={ this.props.todoDescription }
+                        defaultValue={ this.props.todoDescription }
                         autosize={{ minRows: 4}}
                     />
+
+                    <DatePicker placeholder={  (this.state.planDate) ? moment(this.state.planDate).format('YYYY-MM-DD HH:MM:SS') : 'Select date' } 
+                    showTime className="EditTodo-DatePicker" onChange={ (value, planDate) => this.handleplanDate(value, planDate) } />
 
                     <Button 
                         type="primary" 
                         className="EditTodo-Button" 
                         onClick={ () => this.handeButton() }>
                         Edit Todo
+                    </Button>
+
+                    <Button 
+                        type="primary" 
+                        className="EditTodo-Button" 
+                        onClick={ () => this.goBack() }>
+                        Go back
                     </Button>
                     </div>
                 </div>
@@ -70,6 +96,7 @@ const mapStateToProps = (state) => {
         todoID: state.todoReducer.todoID,
         todoTitle: state.todoReducer.todoTitle,
         todoDescription: state.todoReducer.todoDescription,
+        todoPlanDate: state.todoReducer.todoPlanDate,
         previous: state.dashboardReducer.previous
     })
 }
@@ -77,7 +104,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return({
         changeContent: (content) => dispatch(changeContent(content)),
-        editTodo: (id, title, description) => dispatch(editTodo(id, title, description))
+        editTodo: (id, title, description, planDate) => dispatch(editTodo(id, title, description, planDate)),
+        readyReset: () => dispatch(readyReset())
     })
 }
 

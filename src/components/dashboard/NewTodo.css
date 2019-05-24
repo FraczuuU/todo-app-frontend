@@ -2,22 +2,23 @@
     margin-top: 50px;
     padding: 24px;
     background-color: #ffffff;
-    min-height: 360px;
+    min-height: 100vh;
 }
 
-.wrapper {
+.NewTodo-Wrapper {
     width: 100%;
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     flex-direction: column;
 }
 
-.container {
+.NewTodo-Container {
     width: 30vw;
     min-width: 200px;
+    min-height: 100vh;
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     flex-direction: column;
 }
@@ -30,4 +31,8 @@
 .NewTodo-Button {
     width: 100%;
     margin-top: 40px;
+}
+
+.NewTodo-DatePicker {
+    margin-top: 20px;
 }

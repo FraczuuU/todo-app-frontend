@@ -6,7 +6,9 @@ const TODO = {
     GET_ONE: 'TODO_GET_ONE',
     GO_TO_EDIT: 'TODO_GO_TO_EDIT',
     EDIT: 'TODO_EDIT',
-    REMOVE: 'TODO_REMOVE'
+    REMOVE: 'TODO_REMOVE',
+    READY: 'TODO_READY',
+    READY_RESET: 'TODO_READY_RESET'
 }
 
 export default TODO

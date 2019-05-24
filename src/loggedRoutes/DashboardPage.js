@@ -41,13 +41,19 @@ class DashboardPage extends React.Component {
     onCollapse = collapsed => {
         this.setState({ collapsed })
     }
+
+    toggle = () => {
+      this.setState({
+        collapsed: !this.state.collapsed,
+      })
+    };
     
     render() {
         const { Header, Content, Footer, Sider } = Layout
         const mql = window.matchMedia('(max-width: 600px)').matches
         return (
           <Layout style={{ minHeight: '100vh' }}>
-            <Sider collapsible={!mql} collapsed={this.state.collapsed} onCollapse={this.onCollapse}>
+            <Sider trigger={null} collapsedWidth={0} collapsible={!mql} collapsed={this.state.collapsed} onCollapse={this.onCollapse}>
               <div className="logo"></div>
               <Menu theme="dark" selectedKeys={[this.props.content]} mode="inline">
                 <Menu.Item key="newTodo" onClick={ () => this.props.changeContent('newTodo') }>
@@ -68,9 +74,13 @@ class DashboardPage extends React.Component {
                 </Menu.Item>
               </Menu>
             </Sider>
-            <Layout>
-              <Header className="DashboardPage-Header">
-                Dashboard
+            <Layout style={{ minWidth: '300px' }} >
+              <Header className="DashboardPage-Header">   
+              <Icon
+                className="trigger"
+                type='menu'
+                onClick={this.toggle}
+              />
               </Header>
               <Content style={{ margin: '0 16px' }}>
                 { (this.props.content === "newTodo") ? <NewTodo /> : '' }

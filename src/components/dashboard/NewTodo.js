@@ -1,5 +1,6 @@
 import React from 'react'
-import { Input, Button } from 'antd'
+import { Input, Button, DatePicker } from 'antd'
+import moment from 'moment'
 
 import toaster from 'toasted-notes'
 import 'toasted-notes/src/styles.css'
@@ -16,7 +17,8 @@ class NewTodo extends React.Component {
 
         this.state = {
             title: '',
-            description: ''
+            description: '',
+            planDate: ''
         }
 
     }
@@ -32,10 +34,16 @@ class NewTodo extends React.Component {
     }
 
     handeButton() {
-            this.props.addTodo(this.state.title, this.state.description)
+            this.props.addTodo(this.state.title, this.state.description, this.state.planDate)
             this.props.getTodos()
             toaster.notify('Successfully added new todo', { duration: 1000 })
             this.props.changeContent('todos')
+    }
+
+    handleplanDate(value, planDate) {
+        this.setState({
+            planDate: planDate
+        })
     }
 
     render() {
@@ -43,8 +51,8 @@ class NewTodo extends React.Component {
         return (
             <div className="NewTodo">
                 <header className="NewTodo-Header">New Todo</header>
-                <div className="wrapper">
-                    <div className="container">
+                <div className="NewTodo-Wrapper">
+                    <div className="NewTodo-Container">
                     <TextArea onChange={ (e) => this.handleTitle(e) } placeholder="Title" autosize />
                         <div style={{ margin: '24px 0' }} />
                     <TextArea
@@ -52,12 +60,17 @@ class NewTodo extends React.Component {
                         placeholder="Description"
                         autosize={{ minRows: 4}}
                     />
+
+                    <DatePicker placeholder={  (this.state.planDate) ? moment(this.state.planDate).format('YYYY-MM-DD HH:MM:SS') : 'Select date' } 
+                    showTime className="EditTodo-DatePicker" onChange={ (value, planDate) => this.handleplanDate(value, planDate) } />
+                    
                     <Button 
                         type="primary" 
                         className="NewTodo-Button" 
                         onClick={ () => this.handeButton() }>
                         Add Todo
                     </Button>
+
                     </div>
                 </div>
             </div>
@@ -71,7 +84,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return({
-        addTodo: (title, description) => dispatch(addTodo({ title: title, description: description })),
+        addTodo: (title, description, planDate) => dispatch(addTodo({ title: title, description: description, planDate: planDate })),
         getTodos: () => dispatch(getTodos()),
         changeContent: (content) => dispatch(changeContent(content))
     })

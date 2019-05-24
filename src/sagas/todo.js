@@ -1,7 +1,7 @@
 import { call, put, takeLatest } from 'redux-saga/effects'
 import axios from 'axios'
 import { TODO } from '../redux/constants'
-import { showTodos, getTodos, goToEdit } from '../redux/actions/todo'
+import { showTodos, getTodos, goToEdit, ready } from '../redux/actions/todo'
 import { showMessage } from '../redux/actions/messages'
 import { apiURL } from './index'
 import { getToken } from '../services/auth'
@@ -67,7 +67,8 @@ function* editTodoSaga(action) {
         const res = yield call(axios.patch, apiURL + '/todo', { 
             id: action.payload.id,
             title: action.payload.title,
-            description: action.payload.description
+            description: action.payload.description,
+            planDate: action.payload.planDate
         }, { 
             'headers': {
                 'Authorization': 'Bearer ' + getToken()
@@ -112,7 +113,8 @@ function* getOneTodoSaga(action) {
             }
         })
         if(res.data.todo) {
-            yield put(goToEdit(res.data.todo.id, res.data.todo.title, res.data.todo.description))
+            yield put(goToEdit(res.data.todo.id, res.data.todo.title, res.data.todo.description, res.data.todo.planDate))
+            yield put(ready())
         } else
             yield put(showMessage(res.data.error))
         
