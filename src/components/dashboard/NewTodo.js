@@ -1,5 +1,6 @@
 import React from 'react'
-import { Input, Button, DatePicker } from 'antd'
+import { Input, Button, DatePicker as DatePickerPC, Icon } from 'antd'
+import DatePicker from 'react-mobile-datepicker'
 import moment from 'moment'
 
 import toaster from 'toasted-notes'
@@ -18,7 +19,8 @@ class NewTodo extends React.Component {
         this.state = {
             title: '',
             description: '',
-            planDate: ''
+            planDate: '',
+		    isOpen: false
         }
 
     }
@@ -46,8 +48,66 @@ class NewTodo extends React.Component {
         })
     }
 
+    handleClick = () => {
+		this.setState({ isOpen: true });
+	}
+
+	handleCancel = () => {
+		this.setState({ isOpen: false })
+	}
+
+	handleSelect = (time) => {
+        this.setState({ planDate: time, isOpen: false })
+	}
+
+    changeDatePicker(mql) {
+        if(mql) 
+            return (
+                <Input className="EditTodo-DatePicker" placeholder={ (this.state.planDate) ? moment(this.state.planDate).format('YYYY-MM-DD HH:mm:ss') : 'Select date' } 
+                suffix={ <Icon type="mail" style={{ color: 'rgba(0,0,0,.25)' }} /> } onClick={ () => this.handleClick() } />
+            )   
+        else
+            return (
+                <DatePickerPC placeholder={  (this.state.planDate) ? moment(this.state.planDate).format('YYYY-MM-DD HH:mm:ss') : 'Select date' } 
+                showTime className="EditTodo-DatePicker" onChange={ (value, planDate) => this.handleplanDate(value, planDate) } />
+            )
+    }
+
     render() {
         const { TextArea } = Input
+        const mql = window.matchMedia('(max-width: 600px)').matches
+        const dateConfig = {
+            'year': {
+                format: 'YYYY',
+                caption: 'Year',
+                step: 1,
+            },
+            'month': {
+                format: 'MM',
+                caption: 'Mon',
+                step: 1,
+            },
+            'date': {
+                format: 'DD',
+                caption: 'Day',
+                step: 1,
+            },
+            'hour': {
+                format: 'hh',
+                caption: 'Hour',
+                step: 1,
+            },
+            'minute': {
+                format: 'mm',
+                caption: 'Min',
+                step: 1,
+            },
+            'second': {
+                format: 'ss',
+                caption: 'Sec',
+                step: 1,
+            },
+        }
         return (
             <div className="NewTodo">
                 <header className="NewTodo-Header">New Todo</header>
@@ -60,10 +120,17 @@ class NewTodo extends React.Component {
                         placeholder="Description"
                         autosize={{ minRows: 4}}
                     />
+                
+                    { this.changeDatePicker(mql) }
+                    <DatePicker 
+                        value={(this.state.planDate) ? this.state.planDate : new Date()}
+                        isOpen={this.state.isOpen}
+                        onCancel={this.handleCancel}
+                        dateConfig={dateConfig}
+                        confirmText="Ok"
+                        cancelText="Cancel"
+                        onSelect={ (date) => this.handleSelect(date) } />
 
-                    <DatePicker placeholder={  (this.state.planDate) ? moment(this.state.planDate).format('YYYY-MM-DD HH:MM:SS') : 'Select date' } 
-                    showTime className="EditTodo-DatePicker" onChange={ (value, planDate) => this.handleplanDate(value, planDate) } />
-                    
                     <Button 
                         type="primary" 
                         className="NewTodo-Button" 

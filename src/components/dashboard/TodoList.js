@@ -42,7 +42,7 @@ class TodoList extends React.Component {
     }
 
     render() {
-        const data = this.props.todos
+        const data = (this.props.todos || []).sort((a, b) => a.planDate > b.planDate ? 1 : -1)
         const calendarFix = {
             lastDay : '[Yesterday at] HH:mm',
             sameDay : '[Today at] HH:mm',
