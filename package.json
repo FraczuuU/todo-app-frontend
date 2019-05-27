@@ -5,9 +5,11 @@
   "dependencies": {
     "antd": "^3.18.2",
     "axios": "^0.18.0",
+    "bootstrap": "^4.3.1",
     "jwt-decode": "^2.2.0",
     "moment": "^2.24.0",
     "react": "^16.8.6",
+    "react-datepicker": "^2.5.0",
     "react-dom": "^16.8.6",
     "react-mobile-datepicker": "^4.0.1",
     "react-redux": "^7.0.3",

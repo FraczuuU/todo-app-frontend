@@ -21,8 +21,8 @@ import {
      checkResetTokenSagaWatcher
 } from './forgot-password'
 
-//export const apiURL = 'http://3.15.30.31:3001'
-export const apiURL = 'http://localhost:3001'
+export const apiURL = 'http://3.15.30.31:3001'
+//export const apiURL = 'http://localhost:3001'
 
 export function* rootSaga() {
     yield all([

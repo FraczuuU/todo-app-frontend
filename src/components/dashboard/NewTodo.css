@@ -35,4 +35,7 @@
 
 .NewTodo-DatePicker {
     margin-top: 20px;
+    padding: 5px;
+    border-radius: 5px;
+    color: #808080;
 }

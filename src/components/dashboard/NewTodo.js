@@ -1,7 +1,6 @@
 import React from 'react'
-import { Input, Button, DatePicker as DatePickerPC, Icon } from 'antd'
+import { Input, Button } from 'antd'
 import DatePicker from 'react-mobile-datepicker'
-import moment from 'moment'
 
 import toaster from 'toasted-notes'
 import 'toasted-notes/src/styles.css'
@@ -19,8 +18,7 @@ class NewTodo extends React.Component {
         this.state = {
             title: '',
             description: '',
-            planDate: '',
-		    isOpen: false
+            planDate: ''
         }
 
     }
@@ -42,72 +40,45 @@ class NewTodo extends React.Component {
             this.props.changeContent('todos')
     }
 
-    handleplanDate(value, planDate) {
+    handleplanDate(value) {
         this.setState({
-            planDate: planDate
+            planDate: value
         })
     }
-
-    handleClick = () => {
-		this.setState({ isOpen: true });
-	}
-
-	handleCancel = () => {
-		this.setState({ isOpen: false })
-	}
-
-	handleSelect = (time) => {
-        this.setState({ planDate: time, isOpen: false })
-	}
 
     changeDatePicker(mql) {
         if(mql) 
             return (
-                <Input className="EditTodo-DatePicker" placeholder={ (this.state.planDate) ? moment(this.state.planDate).format('YYYY-MM-DD HH:mm:ss') : 'Select date' } 
-                suffix={ <Icon type="mail" style={{ color: 'rgba(0,0,0,.25)' }} /> } onClick={ () => this.handleClick() } />
+                <DatePicker
+                    className="EditTodo-DatePicker"
+                    selected={ (this.state.planDate) ? new Date(this.state.planDate) : 'Select date' }
+                    onChange={ (e) => this.handleplanDate(e) }
+                    showTimeSelect
+                    timeFormat="HH:mm"
+                    timeIntervals={15}
+                    dateFormat="dd-MM-YYYY HH:mm:ss"
+                    timeCaption="time"
+                    withPortal
+                />
             )   
         else
             return (
-                <DatePickerPC placeholder={  (this.state.planDate) ? moment(this.state.planDate).format('YYYY-MM-DD HH:mm:ss') : 'Select date' } 
-                showTime className="EditTodo-DatePicker" onChange={ (value, planDate) => this.handleplanDate(value, planDate) } />
+                <DatePicker
+                    className="EditTodo-DatePicker"
+                    selected={ (this.state.planDate) ? new Date(this.state.planDate) : 'Select date' }
+                    onChange={ (e) => this.handleplanDate(e) }
+                    showTimeSelect
+                    timeFormat="HH:mm"
+                    timeIntervals={15}
+                    dateFormat="dd-MM-YYYY HH:mm:ss"
+                    timeCaption="time"
+                />
             )
     }
 
     render() {
         const { TextArea } = Input
         const mql = window.matchMedia('(max-width: 600px)').matches
-        const dateConfig = {
-            'year': {
-                format: 'YYYY',
-                caption: 'Year',
-                step: 1,
-            },
-            'month': {
-                format: 'MM',
-                caption: 'Mon',
-                step: 1,
-            },
-            'date': {
-                format: 'DD',
-                caption: 'Day',
-                step: 1,
-            },
-            'hour': {
-                format: 'hh',
-                caption: 'Hour',
-                step: 1,
-            },
-            'minute': {
-                format: 'mm',
-                caption: 'Min',
-                step: 1,
-            },
-            'second': {
-                format: 'ss',
-                caption: 'Sec',
-                step: 1,
-            },
-        }
         return (
             <div className="NewTodo">
                 <header className="NewTodo-Header">New Todo</header>
@@ -122,14 +93,6 @@ class NewTodo extends React.Component {
                     />
                 
                     { this.changeDatePicker(mql) }
-                    <DatePicker 
-                        value={(this.state.planDate) ? this.state.planDate : new Date()}
-                        isOpen={this.state.isOpen}
-                        onCancel={this.handleCancel}
-                        dateConfig={dateConfig}
-                        confirmText="Ok"
-                        cancelText="Cancel"
-                        onSelect={ (date) => this.handleSelect(date) } />
 
                     <Button 
                         type="primary" 

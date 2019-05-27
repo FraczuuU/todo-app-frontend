@@ -49,7 +49,7 @@ class TodoList extends React.Component {
             nextDay : '[Tomorrow at] HH:mm',
             lastWeek : '[last] dddd [at] HH:mm',
             nextWeek : 'dddd [at] HH:mm',
-            sameElse : 'L'
+            sameElse : 'DD/MM/YYYY HH:mm'
         }
         return (
             <div className="TodoList">
