@@ -27,13 +27,21 @@ function* getAllTodosSaga() {
 
 function* addTodoSaga(action) {
     try {
-        const res = yield call(axios.post, apiURL + '/todo', action.payload.todo, { 
+
+        let form = new FormData()
+
+        form.append('image', action.payload.todo.image)
+        form.append('title', action.payload.todo.title)
+        form.append('description', action.payload.todo.description)
+        form.append('planDate', action.payload.todo.planDate)
+
+        const res = yield call(axios.post, apiURL + '/todo', form, { 
             'headers': {
                 'Authorization': 'Bearer ' + getToken()
             }
         })
         
-        if(res.data.todos[0]) {
+        if(res.data.todos) {
             yield put(showTodos())
         } else
             yield put(showMessage(res.data.error))
@@ -64,12 +72,16 @@ function* checkTodoSaga(action) {
 
 function* editTodoSaga(action) {
     try {
-        const res = yield call(axios.patch, apiURL + '/todo', { 
-            id: action.payload.id,
-            title: action.payload.title,
-            description: action.payload.description,
-            planDate: action.payload.planDate
-        }, { 
+
+        let form = new FormData()
+
+        form.append('image', action.payload.todo.image)
+        form.append('id', action.payload.todo.id)
+        form.append('title', action.payload.todo.title)
+        form.append('description', action.payload.todo.description)
+        form.append('planDate', action.payload.todo.planDate)
+
+        const res = yield call(axios.patch, apiURL + '/todo', form, { 
             'headers': {
                 'Authorization': 'Bearer ' + getToken()
             }
@@ -113,7 +125,7 @@ function* getOneTodoSaga(action) {
             }
         })
         if(res.data.todo) {
-            yield put(goToEdit(res.data.todo.id, res.data.todo.title, res.data.todo.description, res.data.todo.planDate))
+            yield put(goToEdit(res.data.todo))
             yield put(ready())
         } else
             yield put(showMessage(res.data.error))

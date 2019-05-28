@@ -9,10 +9,7 @@ const todoReducer = (state = {}, action) => {
     if(action.type === TODO.GO_TO_EDIT) {
         return{ 
             ...state, 
-            todoID: action.payload.id, 
-            todoTitle: action.payload.title, 
-            todoDescription: action.payload.description,
-            todoPlanDate: action.payload.planDate
+            todo: action.payload.todo
         }
     }
 

@@ -80,6 +80,7 @@ class TodoList extends React.Component {
                                 }>
    
                                 <p className="todoDescription">{ todo.description }</p>
+                               { (todo.imageLocation) ? <img className="todoImage" src={ todo.imageLocation } alt={ todo.title } ></img> : ''}
                                 <p className={
                                     `
                                         todoPlanDate

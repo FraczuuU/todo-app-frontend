@@ -1,6 +1,7 @@
 import React from 'react'
-import { Input, Button } from 'antd'
-import DatePicker from 'react-mobile-datepicker'
+import { Button, Input } from 'antd';
+import DatePicker from 'react-datepicker'
+import 'react-datepicker/dist/react-datepicker.css'
 
 import toaster from 'toasted-notes'
 import 'toasted-notes/src/styles.css'
@@ -18,7 +19,8 @@ class NewTodo extends React.Component {
         this.state = {
             title: '',
             description: '',
-            planDate: ''
+            planDate: '',
+            image: null
         }
 
     }
@@ -34,7 +36,14 @@ class NewTodo extends React.Component {
     }
 
     handeButton() {
-            this.props.addTodo(this.state.title, this.state.description, this.state.planDate)
+            const todo = { 
+                title: this.state.title,
+                description: this.state.description,
+                planDate: this.state.planDate,
+                image: this.state.image
+            }
+
+            this.props.addTodo(todo)
             this.props.getTodos()
             toaster.notify('Successfully added new todo', { duration: 1000 })
             this.props.changeContent('todos')
@@ -46,12 +55,20 @@ class NewTodo extends React.Component {
         })
     }
 
+    handleImage(e) {
+        let image = e.target.files[0]
+        this.setState({
+            image: image
+        })
+    }
+
     changeDatePicker(mql) {
         if(mql) 
             return (
                 <DatePicker
-                    className="EditTodo-DatePicker"
-                    selected={ (this.state.planDate) ? new Date(this.state.planDate) : 'Select date' }
+                    className="NewTodo-DatePicker"
+                    selected={ (this.state.planDate) ? new Date(this.state.planDate) : new Date() }
+                    value={ (this.state.planDate) ? new Date(this.state.planDate) : 'Select date' }
                     onChange={ (e) => this.handleplanDate(e) }
                     showTimeSelect
                     timeFormat="HH:mm"
@@ -64,8 +81,9 @@ class NewTodo extends React.Component {
         else
             return (
                 <DatePicker
-                    className="EditTodo-DatePicker"
-                    selected={ (this.state.planDate) ? new Date(this.state.planDate) : 'Select date' }
+                    className="NewTodo-DatePicker"
+                    selected={ (this.state.planDate) ? new Date(this.state.planDate) : new Date() }
+                    value={ (this.state.planDate) ? new Date(this.state.planDate) : 'Select date' }
                     onChange={ (e) => this.handleplanDate(e) }
                     showTimeSelect
                     timeFormat="HH:mm"
@@ -94,6 +112,8 @@ class NewTodo extends React.Component {
                 
                     { this.changeDatePicker(mql) }
 
+                    <Input className="NewTodo-FileInput"  type="file" onChange={ (e) => this.handleImage(e) } />
+
                     <Button 
                         type="primary" 
                         className="NewTodo-Button" 
@@ -114,7 +134,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return({
-        addTodo: (title, description, planDate) => dispatch(addTodo({ title: title, description: description, planDate: planDate })),
+        addTodo: (todo) => dispatch(addTodo(todo)),
         getTodos: () => dispatch(getTodos()),
         changeContent: (content) => dispatch(changeContent(content))
     })

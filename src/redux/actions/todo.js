@@ -11,7 +11,7 @@ export const showTodos = (todos) => ({
 
 export const addTodo = (todo) => ({
     type: TODO.ADD,
-    payload: { todo: todo }
+    payload: { todo }
 })
 
 export const checkTodo = (id) => ({
@@ -19,14 +19,14 @@ export const checkTodo = (id) => ({
     payload: { id: id }
 })
 
-export const editTodo = (id, title, description, planDate) => ({
+export const editTodo = (todo) => ({
     type: TODO.EDIT,
-    payload: { id: id, title: title, description: description, planDate: planDate }
+    payload: { todo }
 })
 
-export const goToEdit = (id, title, description, planDate) => ({
+export const goToEdit = (todo) => ({
     type: TODO.GO_TO_EDIT,
-    payload: { id: id, title: title, description: description, planDate: planDate }
+    payload: { todo: todo }
 })
 
 export const removeTodo = (id) => ({

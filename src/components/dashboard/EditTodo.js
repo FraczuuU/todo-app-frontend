@@ -17,16 +17,17 @@ class EditTodo extends React.Component {
         super(props)
 
         this.state = {
-            title: this.props.todoTitle,
-            description: this.props.todoDescription,
-            planDate: this.props.todoPlanDate
+            id: this.props.todo.id,
+            title: this.props.todo.title,
+            description: this.props.todo.description,
+            planDate: this.props.todo.planDate,
+            image: null
         }
 
     }
 
     componentDidMount() {
         this.props.readyReset()
-        document.getElementsByClassName("EditTodo-DatePicker")[0].setAttribute("readonly", "readonly")
     }
 
     handleTitle(e) {
@@ -40,14 +41,29 @@ class EditTodo extends React.Component {
     }
 
     handeButton() {
-            this.props.editTodo(this.props.todoID, this.state.title, this.state.description, this.state.planDate)
-            toaster.notify('Successfully edited todo', { duration: 1000 })
-            this.props.changeContent(this.props.previous)
-    }
+        const todo = { 
+            id: this.state.id,
+            title: this.state.title,
+            description: this.state.description,
+            planDate: this.state.planDate,
+            image: this.state.image
+        }
+
+        this.props.editTodo(todo)
+        toaster.notify('Successfully modified new todo', { duration: 1000 })
+        this.props.changeContent(this.props.previous)
+}
 
     handleplanDate(value) {
         this.setState({
             planDate: value
+        })
+    }
+
+    handleImage(e) {
+        let image = e.target.files[0]
+        this.setState({
+            image: image
         })
     }
 
@@ -59,8 +75,9 @@ class EditTodo extends React.Component {
         if(mql) 
             return (
                 <DatePicker
-                    className="EditTodo-DatePicker"
-                    selected={ (this.state.planDate) ? new Date(this.state.planDate) : 'Select date' }
+                    className="NewTodo-DatePicker"
+                    selected={ (this.state.planDate) ? new Date(this.state.planDate) : new Date() }
+                    value={ (this.state.planDate) ? new Date(this.state.planDate) : 'Select date' }
                     onChange={ (e) => this.handleplanDate(e) }
                     showTimeSelect
                     timeFormat="HH:mm"
@@ -73,8 +90,9 @@ class EditTodo extends React.Component {
         else
             return (
                 <DatePicker
-                    className="EditTodo-DatePicker"
-                    selected={ (this.state.planDate) ? new Date(this.state.planDate) : 'Select date' }
+                    className="NewTodo-DatePicker"
+                    selected={ (this.state.planDate) ? new Date(this.state.planDate) : new Date() }
+                    value={ (this.state.planDate) ? new Date(this.state.planDate) : 'Select date' }
                     onChange={ (e) => this.handleplanDate(e) }
                     showTimeSelect
                     timeFormat="HH:mm"
@@ -93,15 +111,17 @@ class EditTodo extends React.Component {
                 <header className="EditTodo-Header">Edit Todo</header>
                 <div className="EditTodo-Wrapper">
                     <div className="EditTodo-Container">
-                    <TextArea onChange={ (e) => this.handleTitle(e) } defaultValue={ this.props.todoTitle } autosize />
+                    <TextArea onChange={ (e) => this.handleTitle(e) } defaultValue={ this.props.todo.title } autosize />
                         <div style={{ margin: '24px 0' }} />
                     <TextArea
                         onChange={ (e) => this.handleDescription(e) }
-                        defaultValue={ this.props.todoDescription }
+                        defaultValue={ this.props.todo.description }
                         autosize={{ minRows: 4}}
                     />
 
                     { this.changeDatePicker(mql) }
+
+                    <Input className="EditTodo-FileInput"  type="file" onChange={ (e) => this.handleImage(e) } />
                     
                     <Button 
                         type="primary" 
@@ -125,10 +145,7 @@ class EditTodo extends React.Component {
 
 const mapStateToProps = (state) => {
     return({
-        todoID: state.todoReducer.todoID,
-        todoTitle: state.todoReducer.todoTitle,
-        todoDescription: state.todoReducer.todoDescription,
-        todoPlanDate: state.todoReducer.todoPlanDate,
+        todo: state.todoReducer.todo,
         previous: state.dashboardReducer.previous
     })
 }
@@ -136,7 +153,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return({
         changeContent: (content) => dispatch(changeContent(content)),
-        editTodo: (id, title, description, planDate) => dispatch(editTodo(id, title, description, planDate)),
+        editTodo: (todo) => dispatch(editTodo(todo)),
         readyReset: () => dispatch(readyReset())
     })
 }
