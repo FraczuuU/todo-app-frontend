@@ -41,6 +41,10 @@ class TodoList extends React.Component {
         return days
     }
 
+    refresh() {
+        this.props.getTodos()
+    }
+
     render() {
         const data = (this.props.todos || []).sort((a, b) => a.planDate > b.planDate ? 1 : -1)
         const calendarFix = {
@@ -53,7 +57,7 @@ class TodoList extends React.Component {
         }
         return (
             <div className="TodoList">
-                <header className="TodoList-Header">Todo List</header>                
+                <header className="TodoList-Header">Todo List <Icon onClick={ () => this.refresh() } className="TodoList-Header-Icon" type="reload" /> </header>                
                 <List
                     grid={{
                         gutter: 16,
